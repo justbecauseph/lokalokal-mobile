@@ -75,27 +75,32 @@ class HomeScreen extends React.Component {
           >
             500
           </Text>
-          <Text style={{ textAlign: "center" }}>Points</Text>
+          <Text style={{ textAlign: "center", color: "black" }}>Points</Text>
         </View>
-        {list.map((l, i) => (
-          <ListItem
-            key={i}
-            title={l.name}
-            subtitle={l.description}
-            subtitleStyle={{ fontWeight: "normal", fontSize: 12 }}
-            onPress={() => this.props.navigation.navigate("Details")}
-            style={{
-              paddingBottom: 20,
-              paddingTop: 20
-            }}
-            badge={{
-              value: "Credit",
-              textStyle: { color: "white" },
-              containerStyle: { marginTop: -20 }
-            }}
-            hideChevron={true}
-          />
-        ))}
+        <View>
+          {list.map((l, i) => (
+            <ListItem
+              key={i}
+              title={l.name}
+              subtitle={l.description}
+              subtitleStyle={{ fontWeight: "normal", fontSize: 12 }}
+              onPress={() => this.props.navigation.navigate("Details")}
+              style={{
+                paddingBottom: 20,
+                paddingTop: 20
+              }}
+              badge={{
+                value: "Credit",
+                textStyle: { color: "white" },
+                containerStyle: { marginTop: -20 }
+              }}
+              containerStyle={{
+                borderBottomWidth: 0.25
+              }}
+              hideChevron={true}
+            />
+          ))}
+        </View>
       </View>
     );
   }
@@ -126,14 +131,14 @@ class DetailsScreen extends React.Component {
           </Text>
           <Text style={{ textAlign: "center" }}>30 Points</Text>
         </View>
-        <View style={{ flexDirection: "row", height: 100, padding: 20 }}>
-          <Text style={{ fontSize: 14 }}>
+        <View style={{ flexDirection: "row", height: 130, padding: 20 }}>
+          <Text style={{ fontSize: 16 }}>
             It turns out that a few thousands random coffees can be the key to
             breaking ... Can a few bucks spent on a cup of coffee change the
             culture of a company?
           </Text>
         </View>
-        <View style={{ display: "flex", justifyContent: "flex-end" }}>
+        <View style={{ flexDirection: "row-reverse" }}>
           <Button
             title="Redeem"
             buttonStyle={{
@@ -141,8 +146,8 @@ class DetailsScreen extends React.Component {
               width: 150,
               height: 45,
               borderColor: "transparent",
-              borderWidth: 0,
-              borderRadius: 10
+              borderRadius: 10,
+              paddingTop: 10
             }}
             onPress={() => this.props.navigation.navigate("QR")}
           />
@@ -169,11 +174,20 @@ class QRScreen extends Component {
           }}
           backgroundColor="black"
         />
-        <Text style={{ textAlign: "center" }}>
-          Scan the QR Code below to score awesome coffee!
-        </Text>
         <View>
-          <QRCodeScanner onRead={this.onSuccess.bind(this)} />
+          <QRCodeScanner
+            onRead={this.onSuccess.bind(this)}
+            reactivate={true}
+            showMarker={true}
+            markerStyle={{ borderColor: "white" }}
+            bottomContent={
+              <Text
+                style={{ textAlign: "center", fontSize: 16, color: "white" }}
+              >
+                Align the QR Code to the markers
+              </Text>
+            }
+          />
         </View>
       </View>
     );
@@ -226,9 +240,12 @@ class ShopScreen extends Component {
             key={i}
             title={l.name}
             subtitle={l.description}
-            subtitleStyle={{ fontWeight: "normal" }}
+            subtitleStyle={{ fontWeight: "normal", fontSize: 12 }}
             onPress={() => this.props.navigation.navigate("Details")}
             hideChevron={true}
+            containerStyle={{
+              borderBottomWidth: 0.25
+            }}
           />
         ))}
       </View>
