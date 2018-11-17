@@ -59,26 +59,41 @@ class HomeScreen extends React.Component {
     return (
       <View>
         <Header
+          height
           centerComponent={{
             text: "LOFT x LokaLokal",
-            style: { color: "#fff", fontWeight: "bold", fontSize: 20 }
+            style: { color: "#fff", fontSize: 18 }
           }}
-          backgroundColor="rgba(45, 161, 219, 1)"
+          backgroundColor="black"
         />
-        <Text style={{ textAlign: "center" }} h1>
-          500
-        </Text>
-        <Text style={{ textAlign: "center" }} h4>
-          Points
-        </Text>
-        <Divider style={{ backgroundColor: "blue" }} />
+        <View style={{ padding: 10 }}>
+          <Text
+            style={{
+              textAlign: "center"
+            }}
+            h1
+          >
+            500
+          </Text>
+          <Text style={{ textAlign: "center" }}>Points</Text>
+        </View>
         {list.map((l, i) => (
           <ListItem
             key={i}
             title={l.name}
             subtitle={l.description}
-            subtitleStyle={{ fontWeight: "normal" }}
+            subtitleStyle={{ fontWeight: "normal", fontSize: 12 }}
             onPress={() => this.props.navigation.navigate("Details")}
+            style={{
+              paddingBottom: 20,
+              paddingTop: 20
+            }}
+            badge={{
+              value: "Credit",
+              textStyle: { color: "white" },
+              containerStyle: { marginTop: -20 }
+            }}
+            hideChevron={true}
           />
         ))}
       </View>
@@ -90,43 +105,48 @@ class DetailsScreen extends React.Component {
   render() {
     return (
       <View>
+        <Header
+          height
+          centerComponent={{
+            text: "LOFT x LokaLokal",
+            style: { color: "#fff", fontSize: 18 }
+          }}
+          backgroundColor="black"
+        />
         <Image
-          style={{ width: 300, height: 200 }}
+          style={{ width: 480, height: 360 }}
           source={{
             uri:
               "https://img.elcomercio.pe/files/article_content_ec_fotos/uploads/2017/10/28/59f4f0107ab10.jpeg"
           }}
         />
-        <Text h4 style={{ textAlign: "center" }}>
-          Item Name
-        </Text>
-        <Text style={{ textAlign: "center" }}>Costs 30 Points</Text>
-        <Text>Item Details Lorem Ipsum Dolor</Text>
-        <Button
-          title="Maybe Later"
-          buttonStyle={{
-            backgroundColor: "rgba(45, 161, 219, 1)",
-            width: 150,
-            height: 45,
-            borderColor: "transparent",
-            borderWidth: 0,
-            borderRadius: 5
-          }}
-          containerStyle={{ marginTop: 20 }}
-        />
-        <Button
-          title="Pay Now"
-          icon={<Icon name="payment" size={15} color="white" />}
-          buttonStyle={{
-            backgroundColor: "rgba(45, 161, 219, 1)",
-            width: 150,
-            height: 45,
-            borderColor: "transparent",
-            borderWidth: 0,
-            borderRadius: 5
-          }}
-          containerStyle={{ marginTop: 20 }}
-        />
+        <View style={{ justifyContent: "center", padding: 10 }}>
+          <Text h4 style={{ textAlign: "center" }}>
+            Item Name
+          </Text>
+          <Text style={{ textAlign: "center" }}>30 Points</Text>
+        </View>
+        <View style={{ flexDirection: "row", height: 100, padding: 20 }}>
+          <Text style={{ fontSize: 14 }}>
+            It turns out that a few thousands random coffees can be the key to
+            breaking ... Can a few bucks spent on a cup of coffee change the
+            culture of a company?
+          </Text>
+        </View>
+        <View style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button
+            title="Redeem"
+            buttonStyle={{
+              backgroundColor: "black",
+              width: 150,
+              height: 45,
+              borderColor: "transparent",
+              borderWidth: 0,
+              borderRadius: 10
+            }}
+            onPress={() => this.props.navigation.navigate("QR")}
+          />
+        </View>
       </View>
     );
   }
@@ -138,17 +158,24 @@ class QRScreen extends Component {
       console.error("An error occured", err)
     );
   }
-
   render() {
     return (
-      <QRCodeScanner
-        onRead={this.onSuccess.bind(this)}
-        topContent={
-          <Text style={{ textAlign: "center" }}>
-            Scan the QR Code below to score awesome coffee!
-          </Text>
-        }
-      />
+      <View>
+        <Header
+          height
+          centerComponent={{
+            text: "Scan QR",
+            style: { color: "#fff", fontSize: 18 }
+          }}
+          backgroundColor="black"
+        />
+        <Text style={{ textAlign: "center" }}>
+          Scan the QR Code below to score awesome coffee!
+        </Text>
+        <View>
+          <QRCodeScanner onRead={this.onSuccess.bind(this)} />
+        </View>
+      </View>
     );
   }
 }
@@ -175,9 +202,24 @@ class ShopScreen extends Component {
     ];
     return (
       <View>
+        <Header
+          height
+          centerComponent={{
+            text: "Shop",
+            style: { color: "#fff", fontSize: 18 }
+          }}
+          backgroundColor="black"
+        />
         <SearchBar
+          platform="android"
+          round
           placeholder="Search for Rewards"
-          containerStyle={{ backgroundColor: "rgba(45, 161, 219, 1)" }}
+          inputContainerStyle={{
+            backgroundColor: "transparent",
+            borderColor: "rgba(45, 161, 219, 1)"
+          }}
+          inputStyle={{ fontSize: 14 }}
+          containerStyle={{ backgroundColor: "black" }}
         />
         {list.map((l, i) => (
           <ListItem
@@ -186,6 +228,7 @@ class ShopScreen extends Component {
             subtitle={l.description}
             subtitleStyle={{ fontWeight: "normal" }}
             onPress={() => this.props.navigation.navigate("Details")}
+            hideChevron={true}
           />
         ))}
       </View>
@@ -197,13 +240,50 @@ AppRegistry.registerComponent("default", () => QRScreen);
 
 const TabNavigator = createBottomTabNavigator(
   {
-    Home: HomeScreen,
-    Details: DetailsScreen,
-    QR: QRScreen,
-    Shop: ShopScreen
+    Home: {
+      screen: HomeScreen,
+      navigationOptions: {
+        tabBarLabel: "Home",
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="home" size={35} color={tintColor} />
+        )
+      }
+    },
+    Details: {
+      screen: DetailsScreen,
+      navigationOptions: {
+        tabBarLabel: "Details",
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="details" size={35} color={tintColor} />
+        )
+      }
+    },
+    QR: {
+      screen: QRScreen,
+      navigationOptions: {
+        tabBarLabel: "Scan QR",
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="photo-camera" size={35} color={tintColor} />
+        )
+      }
+    },
+    Shop: {
+      screen: ShopScreen,
+      navigationOptions: {
+        tabBarLabel: "Shop",
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="shopping-cart" size={35} color={tintColor} />
+        )
+      }
+    }
   },
   {
-    initialRouteName: "Home"
+    initialRouteName: "Home",
+    tabBarOptions: {
+      activeTintColor: "black",
+      inactiveTintColor: "gray",
+      style: { paddingTop: 10 }
+    }
   }
 );
 
