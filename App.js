@@ -109,7 +109,7 @@ class HomeScreen extends React.Component {
                         <ListItem
                             key={i}
                             title={l.sku ? l.sku.name : 'Topup!'}
-                            subtitle={l.amount}
+                            subtitle={'PHP ' + l.amount}
                             subtitleStyle={{fontWeight: "normal", fontSize: 12}}
                             onPress={() => this.props.navigation.navigate("Details")}
                             style={{
