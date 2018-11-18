@@ -110,14 +110,6 @@ class DetailsScreen extends React.Component {
   render() {
     return (
       <View>
-        <Header
-          height
-          centerComponent={{
-            text: "LOFT x LokaLokal",
-            style: { color: "#fff", fontSize: 18 }
-          }}
-          backgroundColor="black"
-        />
         <Image
           style={{ width: 480, height: 360 }}
           source={{
@@ -216,14 +208,6 @@ class ShopScreen extends Component {
     ];
     return (
       <View>
-        <Header
-          height
-          centerComponent={{
-            text: "Shop",
-            style: { color: "#fff", fontSize: 18 }
-          }}
-          backgroundColor="black"
-        />
         <SearchBar
           platform="android"
           round
